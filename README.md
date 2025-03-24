@@ -4,11 +4,25 @@ This repo contains a NTSC demodulator that I made in Haskell for [Travis Whitake
 
 Apart from Haskell which I've been learning for the past few weeks, I'm pretty much learning all of the requisite signal processing as we go. So far I'm enjoying Haskell as it feels like a very natural way to reason about software. This is because, ultimately, I view programming as the process of taking (input) data of one form and transforming it into another form (desirted output) via a series / composition of functions. This means that I need to clearly understand all the possible "shapes" of the data (types / structures) that I will be working with before doing anything else. Once these "shapes" are established, I can then dive into the details for their respective transformations with full confidence. Whenever a specfic function's implementation gets too involved, I can always break it down into simpler tasks until the intermediate shapes feel intuitive again. 
 
-## Transformations
+## Shapes and Transformations
 ### 1. Signal Acquisition
+#### Input: 
+```haskell
+type RawSignal = Vector Double  -- sampled RF values at uniform intervals
+data SignalParams = SignalParams {
+  sampleRate :: Double,         -- samples per second
+  centerFreq :: Double          -- carrier frequency
+}
+```
+
 #### Operations:
 - read continuous RF samples from file or device
 - normalize amplitude
+
+#### Output:
+```haskell
+type NormalizedSignal = Vector Double  -- scaled to standard range
+```
 
 ### 2. Bandpass Filtering
 #### Operations:
@@ -72,10 +86,10 @@ Apart from Haskell which I've been learning for the past few weeks, I'm pretty m
 - synchronize audio with video frames
 - format according to output requirements
 
-## Appendix. Some Reference Information on the NTSC and General Signal Processing (WIP)
+## Appendix. Some Reference Information
 
 #### NTSC (National Television System Committee)
-The NTSC created the first American standard for broadcasting analog color television. It defines a way to encode analog video and audio signals onto a radio-frequency (RF) carrier wave in order for to be transmitted via airwaves / cables.
+The [NTSC](https://antiqueradio.org/art/NTSC%20Signal%20Specifications.pdf) created the first American standard for broadcasting analog color television. It defines a way to encode analog video and audio signals onto a radio-frequency (RF) carrier wave in order for to be transmitted via airwaves / cables.
 
 This broadcast signal carries multiple types of data:
 - Luminance (Y): brightness (of a monochrome image) which contains spatial and intesntiy information
