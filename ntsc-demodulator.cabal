@@ -1,25 +1,68 @@
 cabal-version:      3.0
 name:               ntsc-demodulator
 version:            0.1.0.0
--- synopsis:
--- description:
+synopsis:           NTSC demodulator in Haskell
+description:        A functional implementation of NTSC demodulation
 license:            BSD-3-Clause
 license-file:       LICENSE
 author:             rayankermanshahani
 maintainer:         rayan.k@gmx.com
 -- copyright:
 build-type:         Simple
-extra-doc-files:    CHANGELOG.md
+extra-doc-files:    README.md
 -- extra-source-files:
 
-common warnings
-    ghc-options: -Wall
+common common-settings
+  default-language: Haskell2010
+  ghc-options:      -Wall
+                    -Wcompat
+                    -Widentities
+                    -Wincomplete-record-updates
+                    -Wincomplete-uni-patterns
+                    -Wmissing-export-lists
+                    -Wmissing-home-modules
+                    -Wpartial-fields
+                    -Wredundant-constraints
+
+library
+    import:           common-settings
+    exposed-modules:  NTSC.Types
+                    , NTSC.Signal
+                    , NTSC.Sync
+                    , NTSC.Color
+                    , NTSC.Frame
+                    , NTSC.Audio
+                    , DSP
+    build-depends:    base ^>=4.17.2.1
+                    , vector
+                    , array
+                    , bytestring
+                    , containers
+    hs-source-dirs:   src
 
 executable ntsc-demodulator
-    import:           warnings
+    import:           common-settings
     main-is:          Main.hs
-    -- other-modules:
-    -- other-extensions:
     build-depends:    base ^>=4.17.2.1
+                    , ntsc-demodulator
+                    , vector
+                    , optparse-applicative
     hs-source-dirs:   app
-    default-language: Haskell2010
+
+executable ntsc-demodulator-test
+    import:           common-settings
+    main-is:          Spec.hs
+    type:             exitcode-stdio-1.0
+    build-depends:    base ^>=4.17.2.1
+                    , ntsc-demodulator
+                    , vector
+                    , hspec
+                    , QuickCheck
+    hs-source-dirs:   test
+    other-modules:    NTSC.TypesSpec
+                    , NTSC.SignalSpec
+                    , NTSC.SyncSpec
+                    , NTSC.ColorSpec
+                    , NTSC.FrameSpec
+                    , NTSC.AudioSpec
+                    , DSPSpec
