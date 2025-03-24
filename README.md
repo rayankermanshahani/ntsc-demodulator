@@ -2,9 +2,77 @@
 
 This repo contains a NTSC demodulator that I made in Haskell for [Travis Whitaker](https://x.com/TravisMWhitaker/status/1873204170070868225).
 
-Apart from Haskell which I've been learning for the past few weeks, I'm pretty much learning all of this stuff from scratch as we go.
+Apart from Haskell which I've been learning for the past few weeks, I'm pretty much learning all of the requisite signal processing as we go. So far I'm enjoying Haskell as it feels like a very natural way to reason about software. This is because, ultimately, I view programming as the process of taking (input) data of one form and transforming it into another form (desirted output) via a series / composition of functions. This means that I need to clearly understand all the possible "shapes" of the data (types / structures) that I will be working with before doing anything else. Once these "shapes" are established, I can then dive into the details for their respective transformations with full confidence. Whenever a specfic function's implementation gets too involved, I can always break it down into simpler tasks until the intermediate shapes feel intuitive again. 
 
-## Part 1. What is What
+## Transformations
+### 1. Signal Acquisition
+#### Operations:
+- read continuous RF samples from file or device
+- normalize amplitude
+
+### 2. Bandpass Filtering
+#### Operations:
+- apply bandpass filter to isolate 6 MHz NTSC channel
+- implement vestigial sideband processing
+- remove out-of-band noise
+
+### 3. Synchronization Detection
+#### Operations:
+- detect horizontal sync pulses (falling to blanking level)
+- identify vertical sync patterns
+- locate equalizing pulses
+- determine field type (odd/even)
+
+### 4. Scan Line Partitioning
+#### Operations:
+- divide signal into individual scan lines
+- extract active video portion of each line
+- group lines into fields
+
+### 5. Color Burt Extraction and Analysis
+#### Operations:
+- extract 8-11 cycles of 3.58 MHz reference burst after H-sync
+- calculate phase reference for color demodulation
+- measure burst amplitude for calibration
+
+### 6. Luminance (Y) Extraction
+#### Operations:
+- apply lowpass filter (0-3 MHz) to extract luminance
+- scale according to NTSC levels (blanking at 75%, reference white at 15%)
+- apply proper gamma correction
+
+### 7. Chrominance Demodulation (I/Q Extraction)
+#### Operations:
+- use color burst as phase reference
+- demodulate I component (in-phase, wide-band)
+- demodulate Q component (quadrature, narrow-band)
+- apply appropriate bandpass filtering to each component
+    - I-channel: up to 1.3 MHz
+    - Q-channel: up to 0.5 MHz
+
+### 8. YIQ to RGB Conversion
+#### Operations:
+- convert each YIQ triplet to RGB using NTSC matrix
+- apply gamma correction for display
+
+### 9. Frame Assembly
+#### Operations:
+- order scan lines by field and line number
+- handle interlacing (alternating odd/even fields)
+- create complete frames
+
+### 10. Audio Processing
+#### Operations:
+- apply bandpass filter around 4.5 MHz (audio carrier)
+- FM demodulate the audio carrier
+- apply 75 μsec de-emphasis filter
+
+### 11. Final Output Assembly
+#### Operations:
+- synchronize audio with video frames
+- format according to output requirements
+
+## Appendix. Some Reference Information on the NTSC and General Signal Processing (WIP)
 
 #### NTSC (National Television System Committee)
 The NTSC created the first American standard for broadcasting analog color television. It defines a way to encode analog video and audio signals onto a radio-frequency (RF) carrier wave in order for to be transmitted via airwaves / cables.
