@@ -33,7 +33,7 @@ library
                     , NTSC.Frame
                     , NTSC.Audio
                     , DSP
-    build-depends:    base ^>=4.17.2.1
+    build-depends:    base ^>=4.17.2.1 && <5
                     , vector
                     , array
                     , bytestring
@@ -43,17 +43,18 @@ library
 executable ntsc-demodulator
     import:           common-settings
     main-is:          Main.hs
-    build-depends:    base ^>=4.17.2.1
+    build-depends:    base ^>=4.17.2.1 && <5
                     , ntsc-demodulator
                     , vector
                     , optparse-applicative
     hs-source-dirs:   app
+    ghc-options:      -O2 -threaded -rtsopts -with-rtsopts=-N
 
 executable ntsc-demodulator-test
     import:           common-settings
     main-is:          Spec.hs
     type:             exitcode-stdio-1.0
-    build-depends:    base ^>=4.17.2.1
+    build-depends:    base ^>=4.17.2.1 && <5
                     , ntsc-demodulator
                     , vector
                     , hspec
