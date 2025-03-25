@@ -1,4 +1,11 @@
-module NTSC.Sync (example) where
+module NTSC.Sync
+  ( detectSynchronization,
+    partitionScanLines,
+  )
+where
 
-example :: a -> a
-example = id
+import DSP
+import NTSC.Types
+
+detectSynchronization :: FilteredSignal -> Double -> SyncedSignal
+partitionScanLines :: SyncedSignal -> LinePartitionedSignal

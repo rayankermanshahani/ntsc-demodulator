@@ -1,4 +1,15 @@
-module NTSC.Color (example) where
+module NTSC.Color
+  ( extractColorBurst,
+    extractLuminance,
+    demodulateIQ,
+    convertYIQtoRGB,
+  )
+where
 
-example :: a -> a
-example = id
+import DSP
+import NTSC.Types
+
+extractColorBurst :: LinePartitionedSignal -> ColorReferencedSignal
+extractLuminance :: ColorReferencedSignal -> LuminanceExtractedSignal
+demodulateIQ :: LuminanceExtractedSignal -> ColorReference -> YIQSignal
+convertYIQtoRGB :: YIQSignal -> RGBSignal

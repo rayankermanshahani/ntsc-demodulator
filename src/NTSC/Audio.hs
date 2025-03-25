@@ -1,4 +1,6 @@
-module NTSC.Audio (example) where
+module NTSC.Audio (extractAudio) where
 
-example :: a -> a
-example = id
+import DSP
+import NTSC.Types
+
+extractAudio :: FilteredSignal -> Double -> AudioSamples

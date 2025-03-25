@@ -1,4 +1,10 @@
-module NTSC.Frame (example) where
+module NTSC.Frame
+  ( assembleFrames,
+    assembleOutput,
+  )
+where
 
-example :: a -> a
-example = id
+import NTSC.Types
+
+assembleFrames :: RGBSignal -> DecodedVideo
+assembleOutput :: DecodedVideo -> AudioSamples -> Double -> NTSCDemodulated
