@@ -110,7 +110,7 @@ type DecodedVideo = V.Vector VideoFrame
 
 type AudioSamples = VU.Vector Double
 
-data Metadata = Metdata
+data Metadata = Metadata
   { originalSampleRate :: Double,
     framesProcessed :: Int,
     processingTime :: Double
