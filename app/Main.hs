@@ -1,18 +1,17 @@
 module Main (main) where
 
 import qualified Data.Vector.Unboxed as VU
-import Options.Applicative
-import System.IO
-
 import NTSC.Audio
 import NTSC.Color
 import NTSC.Frame
 import NTSC.Signal
 import NTSC.Sync
 import NTSC.Types
+import Options.Applicative
+import System.IO
 
 -- command line argument parsing and main entry point
-datga Args = Args 
+data Args = Args
   { inputFile :: FilePath,
     outputFile :: FilePath
   }
@@ -31,20 +30,26 @@ demodulateNTSC input output = do
 parseArgs :: IO Args
 parseArgs = execParser opts
   where
-    opts = info (argsParser <**> helper)
-      ( fullDesc
-     <> progDesc "NTSC Signal Demodulator"
-     <> header "ntsc-demodulator - convert NTSC signals to decoded video/audio" )
+    opts =
+      info
+        (argsParser <**> helper)
+        ( fullDesc
+            <> progDesc "NTSC Signal Demodulator"
+            <> header "ntsc-demodulator - convert NTSC signals to decoded video/audio"
+        )
 
 argsParser :: Parser Args
-argsParser = argsParser
-  <$> strOption
+argsParser =
+  Args
+    <$> strOption
       ( long "input"
-     <> short 'i'
-     <> metavar "FILE"
-     <> help "Input NTSC signal file" )
-  <$> strOption
+          <> short 'i'
+          <> metavar "FILE"
+          <> help "Input NTSC signal file"
+      )
+    <$> strOption
       ( long "output"
-     <> short 'o'
-     <> metavar "FILE"
-     <> help "Output file for demodulated content" )
+          <> short 'o'
+          <> metavar "FILE"
+          <> help "Output file for demodulated content"
+      )
