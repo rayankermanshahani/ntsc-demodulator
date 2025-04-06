@@ -1,3 +1,4 @@
+{- src/NTSC/Types.hs -}
 module NTSC.Types
   ( -- * signal types
     RawSignal,

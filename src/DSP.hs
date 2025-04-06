@@ -1,3 +1,4 @@
+{- src/DSP.hs -}
 module DSP
   ( fft,
     ifft,
